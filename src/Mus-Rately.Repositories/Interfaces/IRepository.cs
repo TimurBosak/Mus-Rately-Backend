@@ -6,6 +6,6 @@
 
         Task<IReadOnlyCollection<T>> GetAllAsync();
 
-        Task<IReadOnlyCollection<T>> GetPaginatedAsync(int takeNumber, int skipNumber);
+        Task<IReadOnlyCollection<T>> GetPaginatedAsync(int skipNumber, int takeNumber);
     }
 }
