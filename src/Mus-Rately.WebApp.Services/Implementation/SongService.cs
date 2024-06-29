@@ -25,6 +25,16 @@ namespace Mus_Rately.WebApp.Services.Implementation
             };
 
             songRepo.Add(song);
+            _uow.SaveChangesAsync();
+        }
+
+        public async Task<IReadOnlyCollection<Song>> GetAllSongsAsync()
+        {
+            var songRepo = _uow.GetRepository<Song>();
+
+            var songs = await songRepo.GetAllAsync();
+
+            return songs;
         }
     }
 }

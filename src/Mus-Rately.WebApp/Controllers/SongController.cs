@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Mus_Rately.WebApp.Domain.Models;
 using Mus_Rately.WebApp.Services.Interfaces;
 
 namespace Mus_Rately.WebApp.Controllers
@@ -23,6 +24,14 @@ namespace Mus_Rately.WebApp.Controllers
             _songService.AddSongAsync();
             
             return Ok();
+        }
+
+        [HttpGet(Name = "GetSongs")]
+        public async Task<IActionResult> GetAllSongs()
+        {
+            var songs = await _songService.GetAllSongsAsync();
+
+            return Ok(songs);
         }
     }
 }

@@ -17,11 +17,20 @@ builder.Services.AddDbContext<MusRatelyContext>(options =>
 builder.Services.AddControllers();
 builder.Services.AddScoped<IMusRatelyUnitOfWork, MusRatelyUnitOfWork>();
 builder.Services.AddScoped<ISongService, SongService>();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+
+    var dbContext = services.GetRequiredService<MusRatelyContext>();
+
+    // Apply any pending migrations
+    dbContext.Database.Migrate();
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
