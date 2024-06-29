@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Mus_Rately.WebApp.Domain.Models;
 
 namespace Mus_Rately.WebApp.Repositories
 {
@@ -8,6 +9,15 @@ namespace Mus_Rately.WebApp.Repositories
             : base(options)
         {
 
+        }
+
+        
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Song>()
+                .Property(s => s.Name)
+                .HasMaxLength(Song.MaxLength)
+                .IsRequired();
         }
     }
 }

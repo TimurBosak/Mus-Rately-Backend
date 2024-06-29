@@ -7,5 +7,7 @@
         Task<IReadOnlyCollection<T>> GetAllAsync();
 
         Task<IReadOnlyCollection<T>> GetPaginatedAsync(int skipNumber, int takeNumber);
+
+        void Add(T entity);
     }
 }

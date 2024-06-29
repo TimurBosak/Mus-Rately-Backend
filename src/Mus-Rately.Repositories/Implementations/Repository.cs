@@ -32,6 +32,11 @@ namespace Mus_Rately.Repositories.Implementations
             return await GetQuery().Skip(skipNumber).Take(takeNumber).ToListAsync();
         }
 
+        public void Add(T entity)
+        {
+            dbSet.Add(entity);
+        }
+
 
         protected virtual IQueryable<T> GetQuery()
         {

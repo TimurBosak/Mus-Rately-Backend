@@ -1,9 +1,8 @@
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Identity.Web;
 using Mus_Rately.WebApp.Repositories;
 using Mus_Rately.WebApp.Repositories.Interfaces;
+using Mus_Rately.WebApp.Services.Implementation;
+using Mus_Rately.WebApp.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +16,7 @@ builder.Services.AddDbContext<MusRatelyContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddControllers();
 builder.Services.AddScoped<IMusRatelyUnitOfWork, MusRatelyUnitOfWork>();
+builder.Services.AddScoped<ISongService, SongService>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

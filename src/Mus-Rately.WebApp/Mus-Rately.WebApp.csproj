@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Mus-Rately.WebApp.Repositories\Mus-Rately.WebApp.Repositories.csproj" />
+    <ProjectReference Include="..\Mus-Rately.WebApp.Services\Mus-Rately.WebApp.Services.csproj" />
   </ItemGroup>
 
 </Project>

@@ -7,4 +7,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Mus-Rately.WebApp.Domain\Mus-Rately.WebApp.Domain.csproj" />
+    <ProjectReference Include="..\Mus-Rately.WebApp.Repositories\Mus-Rately.WebApp.Repositories.csproj" />
+  </ItemGroup>
+
 </Project>
