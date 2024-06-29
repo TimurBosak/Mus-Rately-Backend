@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <RootNamespace>Mus_Rately.WebApp.Services</RootNamespace>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Mus-Rately.WebApp.Domain\Mus-Rately.WebApp.Domain.csproj" />
+    <ProjectReference Include="..\Mus-Rately.WebApp.Repositories\Mus-Rately.WebApp.Repositories.csproj" />
+  </ItemGroup>
+
+</Project>
