@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mus-Rately.WebApp.Repositor
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mus-Rately.WebApp.Services", "..\Mus-Rately.WebApp.Services\Mus-Rately.WebApp.Services.csproj", "{A65CF130-A6F2-4A2C-A7F0-CCC0BD9CE9AF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mus-Rately.WebApp.Domain", "..\Mus-Rately.WebApp.Domain\Mus-Rately.WebApp.Domain.csproj", "{9EF20791-0F02-4454-9C7F-50A8296586AE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{A65CF130-A6F2-4A2C-A7F0-CCC0BD9CE9AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A65CF130-A6F2-4A2C-A7F0-CCC0BD9CE9AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A65CF130-A6F2-4A2C-A7F0-CCC0BD9CE9AF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9EF20791-0F02-4454-9C7F-50A8296586AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9EF20791-0F02-4454-9C7F-50A8296586AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9EF20791-0F02-4454-9C7F-50A8296586AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9EF20791-0F02-4454-9C7F-50A8296586AE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
