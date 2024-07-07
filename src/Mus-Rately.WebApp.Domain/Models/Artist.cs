@@ -1,6 +1,6 @@
 ﻿namespace Mus_Rately.WebApp.Domain.Models
 {
-    public class Song
+    public class Artist
     {
         public const int MaxLength = 100;
 
@@ -11,10 +11,8 @@
 
         public decimal UserRating { get; set; }
 
-        public decimal AuthorRating { get; set; }
+        public decimal SiteOwnerRating { get; set; }
 
-        public string TrackImage { get; set; }
-
-        public DateTime ReleaseDate { get; set; }
+        public string ArtistImage { get; set; }
     }
 }
