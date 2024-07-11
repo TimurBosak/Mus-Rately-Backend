@@ -10,15 +10,18 @@ namespace Mus_Rately.WebApp.Controllers
     public class AuthenticationController : ControllerBase
     {
         private readonly IRegisterService _registerService;
+        private readonly ILoginService _loginService;
 
 
-        public AuthenticationController(IRegisterService registerService)
+        public AuthenticationController(IRegisterService registerService, ILoginService loginService)
         {
             _registerService = registerService;
+            _loginService = loginService;
         }
 
 
         [HttpPost]
+        [Route("Register")]
         public async Task<IActionResult> Register(UserDTO user)
         {
             var domainUser = new User
@@ -32,10 +35,29 @@ namespace Mus_Rately.WebApp.Controllers
 
             if (result)
             {
+                await _loginService.LoginAsync(domainUser);
                 return Ok();
             }
 
             return BadRequest();
+        }
+
+        [HttpPost]
+        [Route("Login")]
+        public async Task<IActionResult> Login(string userName, string password)
+        {
+            await _loginService.LoginAsync(userName, password);
+
+            return Ok();
+        }
+
+        [HttpPost]
+        [Route("Logout")]
+        public async Task<IActionResult> Logout()
+        {
+            await _loginService.LogoutAsync();
+
+            return Ok();
         }
     }
 }

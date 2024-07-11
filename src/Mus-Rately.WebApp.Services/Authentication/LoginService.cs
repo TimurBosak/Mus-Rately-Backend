@@ -1,17 +1,33 @@
-﻿using Mus_Rately.WebApp.Services.Interfaces;
+﻿using Microsoft.AspNetCore.Identity;
+using Mus_Rately.WebApp.Domain.Models;
+using Mus_Rately.WebApp.Services.Interfaces;
 
 namespace Mus_Rately.WebApp.Services.Authentication
 {
     public class LoginService : ILoginService
     {
-        public Task LoginAsync()
+        private readonly SignInManager<User> _signInManager;
+
+
+        public LoginService(SignInManager<User> signInManager)
         {
-            throw new NotImplementedException();
+            _signInManager = signInManager;
         }
 
-        public Task LogoutAsync()
+
+        public async Task LoginAsync(string userName, string password)
         {
-            throw new NotImplementedException();
+            await _signInManager.PasswordSignInAsync(userName, password, true, false);
+        }
+
+        public async Task LoginAsync(User user)
+        {
+            await _signInManager.SignInAsync(user, true);
+        }
+
+        public async Task LogoutAsync()
+        {
+            await _signInManager.SignOutAsync();
         }
     }
 }

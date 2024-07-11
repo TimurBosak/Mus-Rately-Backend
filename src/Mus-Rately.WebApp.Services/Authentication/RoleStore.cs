@@ -93,7 +93,7 @@ namespace Mus_Rately.WebApp.Services.Authentication
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+
         }
     }
 }
