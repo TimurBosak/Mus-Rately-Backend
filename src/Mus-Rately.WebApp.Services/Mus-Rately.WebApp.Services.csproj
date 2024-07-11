@@ -8,6 +8,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.32" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Mus-Rately.WebApp.Domain\Mus-Rately.WebApp.Domain.csproj" />
     <ProjectReference Include="..\Mus-Rately.WebApp.Repositories\Mus-Rately.WebApp.Repositories.csproj" />
   </ItemGroup>
