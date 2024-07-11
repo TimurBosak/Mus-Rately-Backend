@@ -4,9 +4,9 @@ using Mus_Rately.WebApp.Services.Interfaces;
 
 namespace Mus_Rately.WebApp.Controllers
 {
-    //[Authorize]
+    [Authorize]
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class SongController : ControllerBase
     {
         private readonly ISongService _songService;

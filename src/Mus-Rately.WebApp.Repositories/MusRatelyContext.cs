@@ -75,6 +75,9 @@ namespace Mus_Rately.WebApp.Repositories
                 .HasIndex(u => u.Email)
                 .IsUnique();
             modelBuilder.Entity<User>()
+                .Property(u => u.UserImage)
+                .IsRequired(false);
+            modelBuilder.Entity<User>()
                 .Property(u => u.PasswordHash)
                 .IsRequired();
 
