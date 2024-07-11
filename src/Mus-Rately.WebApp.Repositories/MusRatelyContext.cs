@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNet.Identity.EntityFramework;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Mus_Rately.WebApp.Domain.Models;
 
 namespace Mus_Rately.WebApp.Repositories
@@ -79,8 +78,6 @@ namespace Mus_Rately.WebApp.Repositories
                 .Property(u => u.PasswordHash)
                 .IsRequired();
 
-            modelBuilder.Entity<IdentityUserLogin<string>>().HasKey(l => l.UserId);
-
             modelBuilder.Entity<UserRole>()
                 .HasKey(ur => new { ur.RoleId, ur.UserId });
             modelBuilder.Entity<UserRole>()
@@ -92,22 +89,30 @@ namespace Mus_Rately.WebApp.Repositories
                 new Role
                 {
                     Id = "User",
+                    ConcurrencyStamp = "userConcurrencyStamp",
                     Name = Role.User,
+                    NormalizedName = Role.User.ToUpper()
                 },
                 new Role
                 {
                     Id = "Artist",
+                    ConcurrencyStamp = "artistConcurrencyStamp",
                     Name = Role.Artist,
+                    NormalizedName = Role.Artist.ToUpper()
                 },
                 new Role
                 {
                     Id = "SiteOwner",
+                    ConcurrencyStamp = "siteownerConcurrencyStamp",
                     Name = Role.SiteOwner,
+                    NormalizedName = Role.SiteOwner.ToUpper()
                 },
                 new Role
                 {
                     Id = "Admin",
+                    ConcurrencyStamp = "adminConcurrencyStamp",
                     Name = Role.Admin,
+                    NormalizedName = Role.Admin.ToUpper()
                 });
         }
     }

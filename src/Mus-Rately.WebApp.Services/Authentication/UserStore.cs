@@ -19,6 +19,11 @@ namespace Mus_Rately.WebApp.Services.Authentication
             throw new NotImplementedException();
         }
 
+        public Task<IdentityResult> UpdateAsync(User user, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<IdentityResult> DeleteAsync(User user, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
@@ -70,11 +75,6 @@ namespace Mus_Rately.WebApp.Services.Authentication
         }
 
         public Task SetUserNameAsync(User user, string userName, CancellationToken cancellationToken)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<IdentityResult> UpdateAsync(User user, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
         }
