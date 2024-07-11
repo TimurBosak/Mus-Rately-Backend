@@ -31,6 +31,8 @@ builder.Services.AddIdentity<User, Role>(
 
 builder.Services.AddControllers();
 builder.Services.AddScoped<IMusRatelyUnitOfWork, MusRatelyUnitOfWork>();
+builder.Services.AddScoped<IRegisterService, RegisterService>();
+builder.Services.AddScoped<ILoginService, LoginService>();
 builder.Services.AddScoped<ISongService, SongService>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
