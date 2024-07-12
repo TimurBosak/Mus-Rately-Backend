@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Mus_Rately.WebApp.Domain.Models;
@@ -29,6 +30,25 @@ builder.Services.AddIdentity<User, Role>(
     .AddRoleStore<RoleStore>()
     .AddClaimsPrincipalFactory<MusRatelyUserClaimsPrincipalFactory>();
 
+builder.Services.AddAuthentication().AddGoogle(googleOptions =>
+{
+    googleOptions.ClientId = builder.Configuration["Authentication:Google:ClientId"];
+    googleOptions.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"];
+});
+
+//builder.Services.AddCors(o =>
+//{
+//    o.AddPolicy("AllowAnyCorsPolicy",
+//        builder =>
+//        {
+//            builder.AllowAnyOrigin()
+//                   .AllowAnyMethod()
+//                   .AllowAnyHeader()
+//                   .WithOrigins("https://localhost:7247")
+//                   .AllowCredentials();
+//        });
+//});
+
 
 builder.Services.AddControllers();
 builder.Services.AddScoped<IMusRatelyUnitOfWork, MusRatelyUnitOfWork>();
@@ -58,6 +78,10 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseRouting();
+
+// app.UseCors("AllowAnyCorsPolicy");
 
 app.UseAuthentication();
 app.UseAuthorization();

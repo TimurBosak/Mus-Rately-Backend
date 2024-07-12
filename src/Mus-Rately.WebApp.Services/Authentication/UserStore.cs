@@ -4,7 +4,7 @@ using Mus_Rately.WebApp.Repositories.Interfaces;
 
 namespace Mus_Rately.WebApp.Services.Authentication
 {
-    public class UserStore : IUserPasswordStore<User>, IUserEmailStore<User>, IUserRoleStore<User>
+    public class UserStore : IUserPasswordStore<User>, IUserLoginStore<User>, IUserEmailStore<User>, IUserRoleStore<User>
     {
         private readonly IMusRatelyUnitOfWork _uow;
 
@@ -167,6 +167,7 @@ namespace Mus_Rately.WebApp.Services.Authentication
                 UserId = user.Id,
                 RoleId = role.Id,
             });
+            await _uow.SaveChangesAsync();
         }
 
         public async Task RemoveFromRoleAsync(User user, string roleName, CancellationToken cancellationToken)
@@ -206,6 +207,62 @@ namespace Mus_Rately.WebApp.Services.Authentication
             var users = await userRepository.GetWhereAsync(u => u.Roles.Any(ur => ur.Role.NormalizedName == roleName));
 
             return users.ToList();
+        }
+
+        public async Task AddLoginAsync(User user, UserLoginInfo login, CancellationToken cancellationToken)
+        {
+            var userLoginInfoRepository = _uow.GetRepository<LoginInfo>();
+
+            userLoginInfoRepository.Add(new LoginInfo
+            {
+                ProviderDisplayName = login.ProviderDisplayName,
+                ProviderKey = login.ProviderKey,
+                LoginProvider = login.LoginProvider,
+                UserId = user.Id,
+            });
+            await _uow.SaveChangesAsync();
+        }
+
+        public async Task RemoveLoginAsync(User user, string loginProvider, string providerKey, CancellationToken cancellationToken)
+        {
+            var userLoginInfoRepository = _uow.GetRepository<LoginInfo>();
+
+            var userLoginInfo = await userLoginInfoRepository.GetSingleOrDefaultAsync(uli => uli.UserId == user.Id 
+                && uli.LoginProvider == loginProvider && uli.ProviderKey == providerKey);
+            if (userLoginInfo != null)
+            {
+                userLoginInfoRepository.Remove(userLoginInfo);
+                await _uow.SaveChangesAsync();
+            }
+        }
+
+        public async Task<IList<UserLoginInfo>> GetLoginsAsync(User user, CancellationToken cancellationToken)
+        {
+            var userLoginInfoRepository = _uow.GetRepository<LoginInfo>();
+
+            var logins = await userLoginInfoRepository.GetWhereAsync(uli => uli.UserId == user.Id);
+            var userLogins = logins.Select(uli => (UserLoginInfo)uli).ToList();
+
+            return userLogins;
+        }
+
+        public async Task<User> FindByLoginAsync(string loginProvider, string providerKey, CancellationToken cancellationToken)
+        {
+            var userLoginInfoRepository = _uow.GetRepository<LoginInfo>();
+            var userRepository = _uow.GetRepository<User>();
+
+            var userLoginInfo = await userLoginInfoRepository.GetSingleOrDefaultAsync(uli => uli.LoginProvider == loginProvider 
+                && uli.ProviderKey== providerKey);
+            if (userLoginInfo != null)
+            {
+                var user = await userRepository.GetSingleOrDefaultAsync(u => u.Id == userLoginInfo.UserId);
+                if (user != null)
+                {
+                    return user;
+                }
+            }
+
+            return null;
         }
 
         public void Dispose()

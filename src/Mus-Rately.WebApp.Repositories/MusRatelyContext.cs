@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Mus_Rately.WebApp.Domain.Models;
 
 namespace Mus_Rately.WebApp.Repositories
@@ -87,6 +88,9 @@ namespace Mus_Rately.WebApp.Repositories
                 .HasIndex(ur => ur.RoleId);
             modelBuilder.Entity<UserRole>()
                 .HasIndex(ur => ur.UserId);
+
+            modelBuilder.Entity<LoginInfo>()
+                .HasKey(uli => new { uli.LoginProvider, uli.ProviderKey });
 
             modelBuilder.Entity<Role>().HasData(
                 new Role
