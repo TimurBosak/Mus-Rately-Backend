@@ -59,67 +59,36 @@ namespace Mus_Rately.WebApp.Controllers
 
         [HttpGet]
         [Route("Google-Login")]
-        public async Task<IActionResult> ExternalLogin()
+        public IActionResult GoogleAuthentication()
         {
-            var stuff = await _signInManager.GetExternalAuthenticationSchemesAsync();
-            var redirectUrl =  Url.Action("GetAllSongs", "Song");
-            // Configure the redirect URL, provider and other properties
-            var properties = _signInManager.ConfigureExternalAuthenticationProperties("Google", "https://localhost:7247/api/Authentication/Google-Login-Yeah");
-            //This will redirect the user to the external provider's login page
-            return new ChallengeResult("Google", properties);
+            var postLoginUrl = Url.Action("ExternalLoginCallBack", "Authentication");
+            var authProperties = _signInManager.ConfigureExternalAuthenticationProperties("Google", postLoginUrl);
+            
+            return new ChallengeResult("Google", authProperties);
         }
 
         [HttpGet]
-        [Route("Google-Login-Yeah")]
-        public async Task<IActionResult>
-            ExternalLoginCallback()
+        [Route("Google-Callback")]
+        public async Task<IActionResult> ExternalLoginCallback()
         {
             var info = await _signInManager.GetExternalLoginInfoAsync();
+            var callBackUrl = Url.Action("GetAllSongs", "Song");
             if (info == null)
             {
                 return BadRequest();
             }
 
-            // If the user already has a login (i.e if there is a record in AspNetUserLogins
-            // table) then sign-in the user with this external login provider
-            var signInResult = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider,
-                info.ProviderKey, isPersistent: false, bypassTwoFactor: true);
+            var signInResult = await _loginService.GoogleSignInAsync(info);
 
             if (signInResult.Succeeded)
             {
-                return Redirect("https://localhost:7247/api/Song");
+                return Redirect(callBackUrl);
             }
-            // If there is no record in AspNetUserLogins table, the user may not have
-            // a local account
             else
             {
-                // Get the email claim value
-                var email = info.Principal.FindFirst(ClaimTypes.Email).Value;
-
-                if (email != null)
-                {
-                    // Create a new user without password if we do not have a user already
-                    var user = await _userManager.FindByEmailAsync(email);
-
-                    if (user == null)
-                    {
-                        user = new User
-                        {
-                            UserName = info.Principal.FindFirstValue(ClaimTypes.Email),
-                            Name = info.Principal.FindFirstValue(ClaimTypes.Email),
-                            Email = info.Principal.FindFirstValue(ClaimTypes.Email),
-                            PasswordHash = "123"
-                        };
-
-                        await _userManager.CreateAsync(user);
-                    }
-
-                    // Add a login (i.e insert a row for the user in AspNetUserLogins table)
-                    await  _userManager.AddLoginAsync(user, info);
-                    await _signInManager.SignInAsync(user, isPersistent: false);
-
-                    return Redirect("https://localhost:7247/api/Song");
-                }
+                await _loginService.CreateGoogleUserInfoAsync(info);
+                
+                return Redirect(callBackUrl);
             }
 
             return Ok();

@@ -79,8 +79,7 @@ namespace Mus_Rately.WebApp.Repositories
                 .Property(u => u.UserImage)
                 .IsRequired(false);
             modelBuilder.Entity<User>()
-                .Property(u => u.PasswordHash)
-                .IsRequired();
+                .Property(u => u.PasswordHash);
 
             modelBuilder.Entity<UserRole>()
                 .HasKey(ur => new { ur.RoleId, ur.UserId });
