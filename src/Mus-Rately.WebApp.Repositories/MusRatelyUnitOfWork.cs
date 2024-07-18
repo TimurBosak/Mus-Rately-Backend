@@ -1,4 +1,5 @@
 ﻿using Mus_Rately.Repositories.Implementations;
+using Mus_Rately.WebApp.Domain.Models;
 using Mus_Rately.WebApp.Repositories.Interfaces;
 
 namespace Mus_Rately.WebApp.Repositories
@@ -8,6 +9,7 @@ namespace Mus_Rately.WebApp.Repositories
         public MusRatelyUnitOfWork(MusRatelyContext context) 
             : base(context)
         {
+            RegisterCustomRepository<UserRole, UserRoleRepository>();
         }
     }
 }

@@ -1,21 +1,59 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Mus_Rately.WebApp.Domain.Models;
 using Mus_Rately.WebApp.Repositories;
 using Mus_Rately.WebApp.Repositories.Interfaces;
+using Mus_Rately.WebApp.Services.Authentication;
 using Mus_Rately.WebApp.Services.Implementation;
 using Mus_Rately.WebApp.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-//builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-//    .AddMicrosoftIdentityWebApi(builder.Configuration.GetSection("AzureAd"));
-
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
     .Replace("|DataDirectory|", AppDomain.CurrentDomain.BaseDirectory);
 builder.Services.AddDbContext<MusRatelyContext>(options =>
     options.UseSqlServer(connectionString));
+
+builder.Services.AddIdentity<User, Role>(
+        o =>
+        {
+            o.Password.RequireDigit = false;
+            o.Password.RequireLowercase = false;
+            o.Password.RequireUppercase = false;
+            o.Password.RequireNonAlphanumeric = false;
+            o.Password.RequiredLength = 8;
+            o.User.RequireUniqueEmail = false;
+        })
+    .AddSignInManager<SignInManager<User>>()
+    .AddUserStore<UserStore>()
+    .AddRoleStore<RoleStore>()
+    .AddClaimsPrincipalFactory<MusRatelyUserClaimsPrincipalFactory>();
+
+builder.Services.AddAuthentication().AddGoogle(googleOptions =>
+{
+    googleOptions.ClientId = builder.Configuration["Authentication:Google:ClientId"];
+    googleOptions.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"];
+});
+
+//builder.Services.AddCors(o =>
+//{
+//    o.AddPolicy("AllowAnyCorsPolicy",
+//        builder =>
+//        {
+//            builder.AllowAnyOrigin()
+//                   .AllowAnyMethod()
+//                   .AllowAnyHeader()
+//                   .WithOrigins("https://localhost:7247")
+//                   .AllowCredentials();
+//        });
+//});
+
+
 builder.Services.AddControllers();
 builder.Services.AddScoped<IMusRatelyUnitOfWork, MusRatelyUnitOfWork>();
+builder.Services.AddScoped<IRegisterService, RegisterService>();
+builder.Services.AddScoped<ILoginService, LoginService>();
 builder.Services.AddScoped<ISongService, SongService>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -41,8 +79,12 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-//app.UseAuthentication();
-//app.UseAuthorization();
+app.UseRouting();
+
+// app.UseCors("AllowAnyCorsPolicy");
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapControllers();
 

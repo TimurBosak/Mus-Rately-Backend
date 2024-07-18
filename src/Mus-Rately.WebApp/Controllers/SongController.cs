@@ -1,13 +1,12 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Mus_Rately.WebApp.Domain.Models;
 using Mus_Rately.WebApp.Services.Interfaces;
 
 namespace Mus_Rately.WebApp.Controllers
 {
-    //[Authorize]
+    [Authorize]
     [ApiController]
-    [Route("[controller]")]
-    //[RequiredScope(RequiredScopesConfigurationKey = "AzureAd:Scopes")]
+    [Route("api/[controller]")]
     public class SongController : ControllerBase
     {
         private readonly ISongService _songService;

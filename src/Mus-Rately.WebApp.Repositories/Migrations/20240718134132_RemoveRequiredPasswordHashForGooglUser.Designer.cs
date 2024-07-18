@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Mus_Rately.WebApp.Repositories;
 
@@ -11,9 +12,11 @@ using Mus_Rately.WebApp.Repositories;
 namespace Mus_Rately.WebApp.Repositories.Migrations
 {
     [DbContext(typeof(MusRatelyContext))]
-    partial class MusRatelyContextModelSnapshot : ModelSnapshot
+    [Migration("20240718134132_RemoveRequiredPasswordHashForGooglUser")]
+    partial class RemoveRequiredPasswordHashForGooglUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
